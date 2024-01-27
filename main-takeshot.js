@@ -5,7 +5,10 @@ import {Cluster} from "puppeteer-cluster";
     const cluster = await Cluster.launch({
         concurrency: Cluster.CONCURRENCY_CONTEXT,
         maxConcurrency: 100,
-        monitor: true
+        monitor: true,
+        puppeteerOptions: {
+            ignoreHTTPSErrors: true
+        }
     });
 
     await cluster.task(attack)
@@ -13,15 +16,13 @@ import {Cluster} from "puppeteer-cluster";
 
     const address = "100.64.0.0/16";
     const cidr = new IPCIDR(address);
-    /*const ips = cidr.toArray({
+    const ips = cidr.toArray({
         from: '100.64.1.2',
         to: '100.64.15.255'
     });
     ips.forEach(ip => {
         cluster.queue(ip)
-    });*/
-    await cluster.queue("100.64.7.233")
-
+    });
 
     await cluster.idle();
     await cluster.close();
