@@ -36,8 +36,9 @@ async function attack({page, data: ip}) {
     })
 
     await page.goto(`http://${ip}`);
-
+    await page.waitForTimeout(2000);
     const title = await page.title();
+
     if (title === "F673AV9") await attackZteF673AV9(page, ip);
     if (title === "EG8145V5") await attackEG8145V5(page, ip);
     if (title === "GM620") await attackGM620(page, ip);

@@ -15,15 +15,17 @@ export default async function attack(page, endereco) {
 
     await page.click("#loginbutton");
 
+    await page.waitForTimeout(1000);
     await (await page.waitForSelector("#name_addconfig", {
         timeout: 2000
     })).click();
 
+    await page.waitForTimeout(1000);
     await (await page.waitForSelector("#name_wlanconfig", {
         timeout: 2000
     })).click();
 
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(5000);
     await page.screenshot({
         path: `./fotos/${endereco}.png`
     });
