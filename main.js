@@ -17,7 +17,7 @@ import attackF670L from "./modelos/modelo-F670L.js";
 
     await cluster.task(attack)
     cluster.on('taskerror', (err, data) => {
-        console.log(err);
+    //    console.log(err);
     });
 
     ips.forEach(ip => {
