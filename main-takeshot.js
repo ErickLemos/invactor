@@ -1,10 +1,11 @@
-import IPCIDR from "ip-cidr";
 import {Cluster} from "puppeteer-cluster";
+import {ips} from "./ips.js";
 
+// function: tirar foto da tela de login do roteador
 (async () => {
     const cluster = await Cluster.launch({
         concurrency: Cluster.CONCURRENCY_CONTEXT,
-        maxConcurrency: 100,
+        maxConcurrency: 200,
         monitor: true,
         puppeteerOptions: {
             ignoreHTTPSErrors: true
@@ -12,14 +13,9 @@ import {Cluster} from "puppeteer-cluster";
     });
 
     await cluster.task(attack)
-    cluster.on('taskerror', (err, data) => {});
-
-    const address = "100.64.0.0/16";
-    const cidr = new IPCIDR(address);
-    const ips = cidr.toArray({
-        from: '100.64.1.2',
-        to: '100.64.15.255'
+    cluster.on('taskerror', (err, data) => {
     });
+
     ips.forEach(ip => {
         cluster.queue(ip)
     });
