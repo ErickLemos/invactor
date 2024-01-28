@@ -6,9 +6,11 @@ import puppeteer from 'puppeteer';
         headless: false,
         ignoreHTTPSErrors: true
     });
-    const endereco = "100.64.1.14"
+    const endereco = "100.64.1.120"
     const page = await browser.newPage();
-    await page.setViewport({width: 1080, height: 1024});
+    await page.setViewport({
+        width: 1080, height: 1024
+    });
 
     {
         await page.goto(`http://${endereco}`);
@@ -16,4 +18,5 @@ import puppeteer from 'puppeteer';
         const title = await page.title();
         console.log(title);
     }
+
 })();

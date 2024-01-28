@@ -28,8 +28,7 @@ export default async function attackZtePrincipal(page, endereco) {
     }
     {
         const enderecoUrlFoto = endereco
-            .replace("http://", "")
-            .replace(".", "");
+            .replace("http://", "");
 
         await page.screenshot({
             path: `./fotos/${enderecoUrlFoto}.png`,

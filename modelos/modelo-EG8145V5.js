@@ -20,8 +20,7 @@ export default async function attackEG8145V5(page, endereco) {
     {
         await page.waitForTimeout(5000);
         const enderecoUrlFoto = endereco
-            .replace("http://", "")
-            .replace(".", "");
+            .replace("http://", "");
 
         await page.screenshot({
             path: `./fotos/${enderecoUrlFoto}.png`,

@@ -26,8 +26,7 @@ export default async function attackGM620(page, endereco) {
     }
     {
         const enderecoUrlFoto = endereco
-            .replace("http://", "")
-            .replace(".", "");
+            .replace("http://", "");
 
         await page.screenshot({
             path: `./fotos/${enderecoUrlFoto}.png`,
