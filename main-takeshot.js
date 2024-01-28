@@ -13,6 +13,7 @@ import {ips} from "./ips.js";
 
     await cluster.task(attack)
     cluster.on('taskerror', (err, data) => {
+        console.log(err);
     });
 
     ips.forEach(ip => {
@@ -32,11 +33,10 @@ async function attack({page, data: ip}) {
     })
 
     await page.goto(`http://${ip}`);
-    await page.waitForTimeout(1000);
 
-    await localpage.screenshot({
-        path: `./fotos/takeshot/${ip}.png`,
-        fullPage: true
+    await page.waitForTimeout(1000);
+    await page.screenshot({
+        path: `./fotos/takeshot/${ip}.png`
     })
 
 }
