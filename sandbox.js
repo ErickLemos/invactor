@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import attack from "./modelos/modelo-EG8145V5.js";
+import attack from "./modelos/modelo-GM620.js";
 
 (async () => {
 
@@ -7,7 +7,7 @@ import attack from "./modelos/modelo-EG8145V5.js";
         headless: false,
         ignoreHTTPSErrors: true
     });
-    const endereco = "100.64.1.42"
+    const endereco = "100.64.1.29"
     const page = await browser.newPage();
     await page.setViewport({
         width: 950,
@@ -15,9 +15,6 @@ import attack from "./modelos/modelo-EG8145V5.js";
     });
 
     await page.goto(`http://${endereco}`);
-    await page.waitForNavigation({
-        timeout: 5000
-    })
     const title = await page.title();
     console.log(title);
 

