@@ -2,6 +2,7 @@ import {Cluster} from "puppeteer-cluster";
 import attackZtePrincipal from "./modelos/modelo-F673AV9.js"
 import attackEG8145V5 from "./modelos/modelo-EG8145V5.js"
 import {ips} from "./ips.js";
+import attackGM620 from "./modelos/modelo-GM620.js";
 
 (async () => {
     const cluster = await Cluster.launch({
@@ -14,7 +15,8 @@ import {ips} from "./ips.js";
     });
 
     await cluster.task(attack)
-    cluster.on('taskerror', (err, data) => {});
+    cluster.on('taskerror', (err, data) => {
+    });
 
     ips.forEach(ip => {
         cluster.queue(ip)
@@ -44,6 +46,7 @@ async function attack({page, data: ip}) {
     {
         if (title === "F673AV9") await attackZtePrincipal(page, endereco);
         if (title === "EG8145V5") await attackEG8145V5(page, endereco);
+        if (title === "GM620") await attackGM620(page, endereco);
     }
 }
 
