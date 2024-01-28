@@ -33,7 +33,6 @@ export default async function attack(page, endereco) {
         timeout: 2000
     })).click();
 
-    await page.waitForTimeout(4000);
     await page.screenshot({
         path: `./fotos/${endereco}.png`,
         fullPage: true
