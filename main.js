@@ -17,6 +17,7 @@ import attackF670L from "./modelos/modelo-F670L.js";
 
     await cluster.task(attack)
     cluster.on('taskerror', (err, data) => {
+        console.log(err);
     });
 
     ips.forEach(ip => {
@@ -28,24 +29,22 @@ import attackF670L from "./modelos/modelo-F670L.js";
 })();
 
 async function attack({page, data: ip}) {
-    const localpage = page;
-    const endereco = `http://${ip}`;
 
-    await localpage.setViewport({
-        width: 764,
-        height: 928
+    await page.setViewport({
+        width: 1000,
+        height: 1000
     })
 
-    await localpage.goto(endereco, {
-        waitUntil: 'networkidle2',
+    await page.goto(`http://${ip}`);
+    await page.waitForNavigation({
         timeout: 5000
     });
 
     const title = await page.title();
-    if (title === "F673AV9") await attackZteF673AV9(page, endereco);
-    if (title === "EG8145V5") await attackEG8145V5(page, endereco);
-    if (title === "GM620") await attackGM620(page, endereco);
-    if (title === "F670L") await attackF670L(page, endereco);
+    if (title === "F673AV9") await attackZteF673AV9(page, ip);
+    if (title === "EG8145V5") await attackEG8145V5(page, ip);
+    if (title === "GM620") await attackGM620(page, ip);
+    if (title === "F670L") await attackF670L(page, ip);
 
 }
 

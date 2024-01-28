@@ -1,11 +1,10 @@
 import {Cluster} from "puppeteer-cluster";
 import {ips} from "./ips.js";
 
-// function: tirar foto da tela de login do roteador
 (async () => {
     const cluster = await Cluster.launch({
         concurrency: Cluster.CONCURRENCY_CONTEXT,
-        maxConcurrency: 200,
+        maxConcurrency: 100,
         monitor: true,
         puppeteerOptions: {
             ignoreHTTPSErrors: true
@@ -44,7 +43,7 @@ async function attack({page, data: ip}) {
             .replace("http://", "");
 
         await localpage.screenshot({
-            path: `./fotos/${enderecoUrlFoto}.png`,
+            path: `./fotos/takeshot/${enderecoUrlFoto}.png`,
             fullPage: true
         })
     }
