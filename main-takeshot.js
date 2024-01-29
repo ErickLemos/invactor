@@ -1,11 +1,10 @@
 import {Cluster} from "puppeteer-cluster";
 import {ips} from "./ips.js";
 
-// function: tirar foto da tela de login do roteador
 (async () => {
     const cluster = await Cluster.launch({
         concurrency: Cluster.CONCURRENCY_CONTEXT,
-        maxConcurrency: 200,
+        maxConcurrency: 100,
         monitor: true,
         puppeteerOptions: {
             ignoreHTTPSErrors: true
@@ -14,6 +13,7 @@ import {ips} from "./ips.js";
 
     await cluster.task(attack)
     cluster.on('taskerror', (err, data) => {
+        console.log(err);
     });
 
     ips.forEach(ip => {
@@ -26,27 +26,18 @@ import {ips} from "./ips.js";
 
 
 async function attack({page, data: ip}) {
-    const localpage = page;
-    const endereco = `http://${ip}`;
 
-    {
-        await localpage.setViewport({
-            width: 950,
-            height: 950
-        })
-    }
-    {
-        await localpage.goto(endereco);
-        await page.waitForTimeout(1000);
-    }
-    {
-        const enderecoUrlFoto = endereco
-            .replace("http://", "");
+    await page.setViewport({
+        width: 1000,
+        height: 1000
+    })
 
-        await localpage.screenshot({
-            path: `./fotos/${enderecoUrlFoto}.png`,
-            fullPage: true
-        })
-    }
+    await page.goto(`http://${ip}`);
+
+    await page.waitForTimeout(1000);
+    await page.screenshot({
+        path: `./fotos/takeshot/${ip}.png`
+    })
+
 }
 

