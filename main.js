@@ -4,6 +4,8 @@ import attackEG8145V5 from "./modelos/modelo-EG8145V5.js"
 import {ips} from "./ips.js";
 import attackGM620 from "./modelos/modelo-GM620.js";
 import attackF670L from "./modelos/modelo-F670L.js";
+import attackHG8145V5 from "./modelos/modelo-HG8145V5.js"
+import attackONT4GE2P2WZ from "./modelos/modelo-ONUGW24AC-ONT4GE2P2WZ.js"
 
 (async () => {
     const cluster = await Cluster.launch({
@@ -17,7 +19,7 @@ import attackF670L from "./modelos/modelo-F670L.js";
 
     await cluster.task(attack)
     cluster.on('taskerror', (err, data) => {
-    //    console.log(err);
+        //    console.log(err);
     });
 
     ips.forEach(ip => {
@@ -43,6 +45,8 @@ async function attack({page, data: ip}) {
     if (title === "EG8145V5") await attackEG8145V5(page, ip);
     if (title === "GM620") await attackGM620(page, ip);
     if (title === "F670L") await attackF670L(page, ip);
+    if (title === "HG8145V5") await attackHG8145V5(page, ip);
+    if (title === "ONT4GE2P2WZ" || title === "ONU GW24AC") await attackONT4GE2P2WZ(page, ip);
 
 }
 

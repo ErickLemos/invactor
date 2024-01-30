@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import attack from "./modelos/modelo-EG8145V5.js";
+import attack from "./modelos/modelo-ONUGW24AC-ONT4GE2P2WZ.js";
 
 (async () => {
 
@@ -7,7 +7,7 @@ import attack from "./modelos/modelo-EG8145V5.js";
         headless: false,
         ignoreHTTPSErrors: true,
     });
-    const endereco = "100.64.1.34"
+    const endereco = "100.64.4.227"
     const page = await browser.newPage();
     await page.setViewport({
         width: 950,
